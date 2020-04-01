@@ -2,21 +2,32 @@
 const colors = require('colors');  
 // getting user input
 const prompt = require('prompt');
+let operationArray = ["add","+", "subtract", "-", "divide", "/", "multiply", "*", "%", "modulo"]
 
-const exampleAdditionInput = {
-  num1: 50,
-  num2: 5,
-  operation: "%",
+const operationOptions = {
+  add: '+',
+  substract: '-',
+  divide: '/',
+  multiply: '*',
+  modulo: '%',
 }
+
+//helper function to put greeting and choices on the command line for user
+const greeting = () => {
+  console.log("Welcome to JS calculator! Let's do some math! Please enter two numbers and an operation, choices for operation are below:".blue);
+  for(let key in operationOptions){
+    console.log(key, "or", operationOptions[key]);
+  };
+}
+
 
 // helper function to check if the numbers provided are valid
 const checkNumber = (input) => {
-  return (!isNaN(input.num1) && !isNaN(input.num2))
+  return (!isNaN(input.num1) && !isNaN(input.num2));
 };
 
 // helper function to check if the operation provided is valid
 const checkOperation = (input) => {
-  let operationArray = ["add","+", "subtract", "-", "divide", "/", "multiply", "*", "%", "modulo"]
   return (operationArray.includes(input.operation));
 }
 
@@ -51,34 +62,56 @@ const calculation = (input) =>{
   }
 }
 
-//
+// helper function to do the math
 const calculate = (input) => {
   let num1 = input.num1
   let num2 = input.num2
   if (checkNumber(input) && checkOperation(input)) {
     console.log(`Your calculation: ${num1} ${input.operation} ${num2} = ${calculation(input)}`.blue);
   } else if (!checkNumber(input)) {
-    console.log("The number(s) you just entered might not be valid! Check again!".blue);
+    console.log("The number(s) you just entered might not be valid! Try again!".blue);
+    getUserInput();
   } else if (!checkOperation(input)){
-    console.log("The operation sign is not valid, double check againg pleaseeeee!".blue);
+    console.log("The operation sign is not valid, double check and try again pleaseeeee!".blue);
+    getUserInput();
   }
 }
 
-
-prompt.start();
-// Get three properties from the user: num1, num2, operation
-
-prompt.get(['num1', 'num2', 'operation'], function (err, result) {
-  console.log(result.num1, result.num2, result.operation);
-  const userInput = {
-    num1: result.num1,
-    num2: result.num2,
-    operation: result.operation,
-  };
-  console.log(userInput)
+// helper function to get user input
+const getUserInput = () => {
+  prompt.start();
+  // Get three properties from the user: num1, num2, operation
+  prompt.get(['num1', 'num2', 'operation'], function (err, result) {
+    console.log(`Got it! your first number is ${result.num1}, second number is ${result.num2}, operation is ${result.operation}`.blue);
+    const userInput = {
+      num1: result.num1,
+      num2: result.num2,
+      operation: result.operation,
+    };
   calculate(userInput);
 });
+};
 
+// main function to put all the user interface together.
+const main = () => {
+  greeting();
+  getUserInput();
+};
+
+main();
+
+//getUserInput();
+//greeting();
+
+
+// for hard coding 
+/* 
+const exampleAdditionInput = {
+  num1: 50,
+  num2: 5,
+  operation: "%",
+}
+*/
 
 //console.log(calculate(exampleAdditionInput));
 //console.log(checkNumber(exampleAdditionInput));
