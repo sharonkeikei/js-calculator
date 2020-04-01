@@ -2,22 +2,24 @@
 const colors = require('colors');  
 // getting user input
 const prompt = require('prompt');
-let operationArray = ["add","+", "subtract", "-", "divide", "/", "multiply", "*", "%", "modulo"]
 
 const operationOptions = {
   add: '+',
-  substract: '-',
+  subtract: '-',
   divide: '/',
   multiply: '*',
   modulo: '%',
+  exponents: "^",
 }
 
 //helper function to put greeting and choices on the command line for user
 const greeting = () => {
-  console.log("Welcome to JS calculator! Let's do some math! Please enter two numbers and an operation, choices for operation are below:".blue);
+  console.log("Welcome to JS calculator! Let's do some math! Please enter two numbers and an operation. \nchoices for operation are below:".blue);
+  console.log("=======================================================");
   for(let key in operationOptions){
     console.log(key, "or", operationOptions[key]);
   };
+  console.log("=======================================================");
 }
 
 
@@ -26,8 +28,10 @@ const checkNumber = (input) => {
   return (!isNaN(input.num1) && !isNaN(input.num2));
 };
 
+
 // helper function to check if the operation provided is valid
 const checkOperation = (input) => {
+  let operationArray = ["add", "+", "subtract", "-", "divide", "/", "multiply", "*", "modulo", "%", "^", "exponents" ]
   return (operationArray.includes(input.operation));
 }
 
@@ -58,6 +62,11 @@ const calculation = (input) =>{
     case "modulo":
     case "%":
       return (input.num1 % input.num2);
+      break;
+    case "exponents":
+    case "^":
+      return (Math.pow(input.num1,input.num2));
+      break;
     }
   }
 }
@@ -82,11 +91,11 @@ const getUserInput = () => {
   prompt.start();
   // Get three properties from the user: num1, num2, operation
   prompt.get(['num1', 'num2', 'operation'], function (err, result) {
-    console.log(`Got it! your first number is ${result.num1}, second number is ${result.num2}, operation is ${result.operation}`.blue);
+    console.log(`Got it! your first number is ${result.num1},  operation is ${result.operation}, second number is ${result.num2}`.blue);
     const userInput = {
-      num1: result.num1,
-      num2: result.num2,
-      operation: result.operation,
+      num1: parseInt(result.num1),
+      num2: parseInt(result.num2),
+      operation: result.operation.toLowerCase(),
     };
   calculate(userInput);
 });
@@ -99,22 +108,3 @@ const main = () => {
 };
 
 main();
-
-//getUserInput();
-//greeting();
-
-
-// for hard coding 
-/* 
-const exampleAdditionInput = {
-  num1: 50,
-  num2: 5,
-  operation: "%",
-}
-*/
-
-//console.log(calculate(exampleAdditionInput));
-//console.log(checkNumber(exampleAdditionInput));
-//console.log(checkOperation(exampleAdditionInput));
-//console.log(calculation(exampleAdditionInput));
-//calculate(exampleAdditionInput);
