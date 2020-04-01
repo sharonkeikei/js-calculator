@@ -38,34 +38,36 @@ const checkOperation = (input) => {
 // helper function to doing the calculation
 const calculation = (input) =>{
   if (checkNumber(input) && checkOperation(input)) {
+    let num1 = parseInt(input.num1);
+    let num2 = parseInt(input.num2);
     switch (input.operation){
     case "add":
     case "+":
-      return (input.num1 + input.num2);
+      return (num1 + num2);
       break;
     case "subtract":
     case "-":
-      return (input.num1 - input.num2);
+      return (num1 - num2);
       break;
     case "divide":
     case "/":
-      if (input.num2 == 0){
+      if (num2 == 0){
         return ("Oops! You couldn't divide it by 0!")
       } else {
-      return (input.num1 / input.num2);
+      return (num1 /num2);
       };
       break;
     case "multiply":
     case "*":
-      return (input.num1 * input.num2);
+      return (num1 * num2);
       break;
     case "modulo":
     case "%":
-      return (input.num1 % input.num2);
+      return (num1 % num2);
       break;
     case "exponents":
     case "^":
-      return (Math.pow(input.num1,input.num2));
+      return (Math.pow(num1,num2));
       break;
     }
   }
@@ -93,8 +95,8 @@ const getUserInput = () => {
   prompt.get(['num1', 'num2', 'operation'], function (err, result) {
     console.log(`Got it! your first number is ${result.num1},  operation is ${result.operation}, second number is ${result.num2}`.blue);
     const userInput = {
-      num1: parseInt(result.num1),
-      num2: parseInt(result.num2),
+      num1: result.num1,
+      num2: result.num2,
       operation: result.operation.toLowerCase(),
     };
   calculate(userInput);
